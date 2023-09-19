@@ -20,5 +20,5 @@ fetchData() async {
 
   String string = json.encode(source);
   const filename = 'sourceFile';
-  var sourceFile = await File(filename).writeAsString(string);
+  await File(filename).writeAsString(string);
 }
