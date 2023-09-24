@@ -38,6 +38,7 @@ dependencies:
   dio: ^5.3.2
   dotenv: ^4.1.0
   flutter_riverpod: ^2.4.0
+  shake: ^2.2.0
 
 dev_dependencies:
   flutter_test:

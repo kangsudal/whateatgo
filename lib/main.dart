@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whateatgo/riverpod/myState.dart';
 import 'package:whateatgo/screen/home_screen.dart';
 import 'package:whateatgo/screen/list_screen.dart';
+import 'package:shake/shake.dart';
 
 import 'model/recipe.dart';
 
@@ -17,14 +18,56 @@ void main() {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
+  late ShakeDetector detector;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    ShakeDetector.autoStart(
+      onPhoneShake: () {
+
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // 앱의 라이프사이클 상태가 변경될 때마다 호출된다.
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        detector.startListening();
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.hidden:
+        break;
+      case AppLifecycleState.paused:
+        detector.stopListening();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     fetchData(ref);
     return const MaterialApp(
-      home: ListScreen(),
+      home: HomeScreen(), //ListScreen(),
     );
   }
 
@@ -39,9 +82,7 @@ class MyApp extends ConsumerWidget {
           dataList.map((json) => Recipe.fromJson(json)).toList();
 
       //전체 recipes 상태관리 변수에 넣기
-      final List<Recipe> state = ref.watch(allRecipes);
       ref.read(allRecipes.notifier).loadRecipeList(recipes);
-      print(state);
     } catch (e) {
       throw Exception(e);
     }
