@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whateatgo/riverpod/myState.dart';
 import 'package:whateatgo/screen/home_screen.dart';
-import 'package:whateatgo/screen/list_screen.dart';
 import 'package:shake/shake.dart';
 
 import 'model/recipe.dart';
@@ -34,7 +33,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     ShakeDetector.autoStart(
       onPhoneShake: () {
-
+        ref.read(diceNumberProvider.notifier).state++;
       },
     );
   }
