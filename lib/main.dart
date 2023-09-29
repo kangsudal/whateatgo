@@ -31,9 +31,9 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    ShakeDetector.autoStart(
+    detector = ShakeDetector.autoStart(
       onPhoneShake: () {
-        ref.read(diceNumberProvider.notifier).state++;
+        ref.read(diceNumberProvider.notifier).roll();
       },
     );
   }

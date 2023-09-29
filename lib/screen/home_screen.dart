@@ -14,7 +14,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(diceNumberProvider.notifier).state++;
+          ref.read(diceNumberProvider.notifier).roll();
         },
       ),
     );
