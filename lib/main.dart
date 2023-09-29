@@ -81,7 +81,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
           dataList.map((json) => Recipe.fromJson(json)).toList();
 
       //전체 recipes 상태관리 변수에 넣기
-      ref.read(allRecipes.notifier).loadRecipeList(recipes);
+      ref.read(allRecipesProvider.notifier).loadRecipeList(recipes);
     } catch (e) {
       throw Exception(e);
     }

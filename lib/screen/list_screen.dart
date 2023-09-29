@@ -7,7 +7,7 @@ class ListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(allRecipes);
+    final state = ref.watch(allRecipesProvider);
     return Scaffold(
       body: ListView.builder(
         itemCount: state.length,
