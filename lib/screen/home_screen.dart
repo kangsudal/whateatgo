@@ -149,51 +149,51 @@ class TopWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                currentRecipe!.attfilenomain!,
-                loadingBuilder: (
-                  BuildContext context,
-                  Widget child,
-                  ImageChunkEvent? loadingProgress,
-                ) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            currentRecipe!.attfilenomain!,
+            loadingBuilder: (
+              BuildContext context,
+              Widget child,
+              ImageChunkEvent? loadingProgress,
+            ) {
+              if (loadingProgress == null) {
+                return Stack(
+                  children: [
+                    child,
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.favorite_outline,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Positioned(
-              right: 8,
-              top: 8,
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite_outline,
-                    color: Colors.black,
+                    )
+                  ],
+                );
+              }
+              return SizedBox(
+                width: 50,
+                height: 50,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
                   ),
                 ),
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
         const SizedBox(height: 15),
         Text(
