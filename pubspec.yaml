@@ -81,15 +81,12 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: GowunDodum
-      fonts:
-        - asset: fonts/GowunDodum-Regular.ttf
-    - family: GasoekOne
-      fonts:
-        - asset: fonts/GasoekOne-Regular.ttf
     - family: BlackHanSans
       fonts:
         - asset: fonts/BlackHanSans-Regular.ttf
+    - family: SongMyung
+      fonts:
+        - asset: fonts/SongMyung-Regular.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -13,92 +13,197 @@ class HomeScreen extends ConsumerWidget {
     final List<Recipe> allRecipes = ref.watch(allRecipesProvider);
     final Recipe? currentRecipe =
         diceNumber == -1 ? null : allRecipes.elementAt(diceNumber);
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 196, 112, 1),
-      appBar: AppBar(),
-      body: currentRecipe == null
-          ? const Center(
-              child: Text(
-                '흔들어주세요!',
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 0.9),
+        appBar: AppBar(),
+        endDrawer: Drawer(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 50,
               ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            currentRecipe.attfilenomk!,
-                            loadingBuilder: (
-                              BuildContext context,
-                              Widget child,
-                              ImageChunkEvent? loadingProgress,
-                            ) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          currentRecipe.rcpnm!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineLarge
-                              ?.copyWith(
-                                color: Colors.black,
-                                fontFamily: 'BlackHanSans',
-                              ),
-                        ),
-                      ],
-                    ),
+              ListTile(
+                title: const Text(
+                  '전체',
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(
-                            color: Colors.black,
-                            width: 2.5,
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: const Text('레시피보기'),
-                      ),
-                      const SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('식당찾기'),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
               ),
+              ListTile(
+                title: const Text(
+                  '관심 항목',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              const BuymeacoffeeWidget(),
+            ],
+          ),
+        ),
+        body: currentRecipe == null
+            ? Center(
+                child: Text(
+                  '흔들어주세요!',
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
+              )
+            : ContentWidget(currentRecipe: currentRecipe),
+        floatingActionButton: FloatingActionButton(
+          // backgroundColor: Colors.black,
+          child: const Icon(Icons.refresh),
+          onPressed: () {
+            ref.read(diceNumberProvider.notifier).roll();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class BuymeacoffeeWidget extends StatelessWidget {
+  const BuymeacoffeeWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: ListTile(
+          title: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 30.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    Icons.coffee,
+                    color: Colors.black,
+                  ),
+                ),
+                Text(
+                  'Buy me a coffee',
+                  textAlign: TextAlign.right,
+                ),
+              ],
             ),
-      floatingActionButton: FloatingActionButton(
-        // backgroundColor: Colors.black,
-        child: const Icon(Icons.refresh),
-        onPressed: () {
-          ref.read(diceNumberProvider.notifier).roll();
-        },
+          ),
+          onTap: () {
+            // Update the state of the app.
+            // ...
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class ContentWidget extends StatelessWidget {
+  const ContentWidget({
+    super.key,
+    required this.currentRecipe,
+  });
+
+  final Recipe? currentRecipe;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        currentRecipe!.attfilenomk!,
+                        loadingBuilder: (
+                          BuildContext context,
+                          Widget child,
+                          ImageChunkEvent? loadingProgress,
+                        ) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.favorite_outline,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  currentRecipe!.rcpnm!,
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                        color: Colors.black,
+                        // fontFamily: 'BlackHanSans',
+                      ),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  side: const BorderSide(
+                    color: Colors.black,
+                    width: 2.5,
+                  ),
+                ),
+                onPressed: () {},
+                child: const Text('Recipe'),
+              ),
+              const SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Restaurant'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

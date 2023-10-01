@@ -68,7 +68,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
     return MaterialApp(
       home: HomeScreen(), //ListScreen(),
       theme: ThemeData(
-        fontFamily: 'GowunDodum',
+        fontFamily: 'SongMyung',
         primaryColor: Colors.black,
         //refresh 버튼 색깔
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -78,6 +78,11 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
           ),
+        ),
+        appBarTheme: const AppBarTheme(
+          color: Colors.transparent,
+          elevation: 0,
+          foregroundColor: Colors.black,
         ),
       ),
     );
