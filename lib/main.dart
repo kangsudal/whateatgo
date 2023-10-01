@@ -65,8 +65,21 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     fetchData(ref);
-    return const MaterialApp(
+    return MaterialApp(
       home: HomeScreen(), //ListScreen(),
+      theme: ThemeData(
+        fontFamily: 'GowunDodum',
+        primaryColor: Colors.black,
+        //refresh 버튼 색깔
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          secondary: Colors.black,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black,
+          ),
+        ),
+      ),
     );
   }
 
