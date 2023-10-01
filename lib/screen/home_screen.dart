@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whateatgo/riverpod/myState.dart';
+import 'package:whateatgo/screen/manual_screen.dart';
 
 import '../model/recipe.dart';
 
@@ -126,85 +127,126 @@ class ContentWidget extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        currentRecipe!.attfilenomk!,
-                        loadingBuilder: (
-                          BuildContext context,
-                          Widget child,
-                          ImageChunkEvent? loadingProgress,
-                        ) {
-                          if (loadingProgress == null) {
-                            return child;
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Positioned(
-                      right: 8,
-                      top: 8,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.favorite_outline,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Text(
-                  currentRecipe!.rcpnm!,
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: Colors.black,
-                        // fontFamily: 'BlackHanSans',
-                      ),
-                ),
-              ],
-            ),
+            child: TopWidget(currentRecipe: currentRecipe),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  side: const BorderSide(
-                    color: Colors.black,
-                    width: 2.5,
-                  ),
-                ),
-                onPressed: () {},
-                child: const Text('Recipe'),
-              ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Restaurant'),
-              ),
-            ],
-          ),
+          BottomButtonsWidget(currentRecipe: currentRecipe),
         ],
       ),
+    );
+  }
+}
+
+class TopWidget extends StatelessWidget {
+  const TopWidget({
+    super.key,
+    required this.currentRecipe,
+  });
+
+  final Recipe? currentRecipe;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                currentRecipe!.attfilenomain!,
+                loadingBuilder: (
+                  BuildContext context,
+                  Widget child,
+                  ImageChunkEvent? loadingProgress,
+                ) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Positioned(
+              right: 8,
+              top: 8,
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.favorite_outline,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 15),
+        Text(
+          currentRecipe!.rcpnm!,
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                color: Colors.black,
+                // fontFamily: 'BlackHanSans',
+              ),
+        ),
+      ],
+    );
+  }
+}
+
+class BottomButtonsWidget extends StatelessWidget {
+  const BottomButtonsWidget({
+    super.key,
+    required this.currentRecipe,
+  });
+
+  final Recipe? currentRecipe;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            side: const BorderSide(
+              color: Colors.black,
+              width: 2.5,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return ManualScreen(recipe: currentRecipe!);
+                },
+              ),
+            );
+          },
+          child: const Text('Recipe'),
+        ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          onPressed: () {},
+          child: const Text('Restaurant'),
+        ),
+      ],
     );
   }
 }
