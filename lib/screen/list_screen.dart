@@ -3,30 +3,63 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whateatgo/riverpod/myState.dart';
 import 'package:whateatgo/screen/manual_screen.dart';
 
+import '../model/recipe.dart';
+
 class ListScreen extends ConsumerWidget {
   const ListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(allRecipesProvider);
+    List<Recipe> items = ref.watch(allRecipesProvider);
+    final TextEditingController myController = TextEditingController();
     return Scaffold(
-      body: ListView.separated(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(items[index].rcpnm!),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ManualScreen(
-                  recipe: items[index],
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: TextField(
+              controller: myController,
+              decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black, width: 1.0),
                 ),
+                border: OutlineInputBorder(),
+                labelText: '검색',
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                ),
+                hintText: '두부',
+                hintStyle: TextStyle(color: Colors.grey),
               ),
+              onEditingComplete: () {
+                items = ref
+                    .read(allRecipesProvider.notifier)
+                    .filteredList(myController.text);
+              },
             ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider();
-        },
+          ),
+          Expanded(
+            child: ListView.separated(
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(items[index].rcpnm!),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ManualScreen(
+                        recipe: items[index],
+                      ),
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const Divider();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
