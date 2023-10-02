@@ -38,19 +38,31 @@ class _ManualScreenState extends ConsumerState<ManualScreen> {
       appBar: AppBar(
         title: Text(widget.recipe.rcpnm!),
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: ListView(
           children: [
+            // if (widget.recipe.attfilenomain != '')
+            //   CachedNetworkImage(imageUrl: widget.recipe.attfilenomain!),
+            //재료 or 썸네일 사진
+            if (widget.recipe.attfilenomk != '')
+              CachedNetworkImage(imageUrl: widget.recipe.attfilenomk!),
+            //재료
+            const Text(
+              '재료:',
+              style: TextStyle(fontSize: 30),
+            ),
+            if (widget.recipe.rcppartsdtls != '')
+              Text(widget.recipe.rcppartsdtls!,
+                  style: const TextStyle(fontSize: 20)),
             const SizedBox(
-              height: 20,
+              height: 50,
             ),
             if (widget.recipe.manual01 != '')
               Text(widget.recipe.manual01!,
                   style: const TextStyle(fontSize: 20)),
             if (widget.recipe.manualimg01 != '')
-              CachedNetworkImage(
-                imageUrl: widget.recipe.manualimg01!,
-              ),
+              CachedNetworkImage(imageUrl: widget.recipe.manualimg01!),
             if (widget.recipe.manual02 != '')
               Text(widget.recipe.manual02!,
                   style: const TextStyle(fontSize: 20)),

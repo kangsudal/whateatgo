@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whateatgo/riverpod/myState.dart';
+import 'package:whateatgo/screen/list_screen.dart';
 import 'package:whateatgo/screen/manual_screen.dart';
 
 import '../model/recipe.dart';
@@ -32,8 +33,11 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ListScreen(),
+                    ),
+                  );
                 },
               ),
               ListTile(
