@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whateatgo/riverpod/myState.dart';
 import 'package:whateatgo/screen/home_screen.dart';
-import 'package:shake/shake.dart';
 
 import 'model/recipe.dart';
 
@@ -25,17 +24,11 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
-  late ShakeDetector detector;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    detector = ShakeDetector.autoStart(
-      onPhoneShake: () {
-        ref.read(diceNumberProvider.notifier).roll();
-      },
-    );
+    ref.read(shakeDetectorProvider.notifier).state.startListening();
   }
 
   @override
@@ -50,7 +43,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.resumed:
-        detector.startListening();
+        ref.read(shakeDetectorProvider.notifier).state.startListening();
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.detached:
@@ -58,7 +51,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
       case AppLifecycleState.hidden:
         break;
       case AppLifecycleState.paused:
-        detector.stopListening();
+        ref.read(shakeDetectorProvider.notifier).state.stopListening();
     }
   }
 

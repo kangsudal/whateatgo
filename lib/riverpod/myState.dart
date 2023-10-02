@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shake/shake.dart';
 
 import '../model/recipe.dart';
 
-//흔들었을때,refresh 버튼을 눌렀을때 random 인덱스값
+//1. 흔들었을때,refresh 버튼을 눌렀을때 random 인덱스값
 final diceNumberProvider = StateNotifierProvider<DiceNumberNotifier, int>(
   (ref) => DiceNumberNotifier(),
 );
@@ -19,8 +20,9 @@ class DiceNumberNotifier extends StateNotifier<int> {
   }
 }
 
-//처음 전체 레시피 데이터를 로드했을때 담을 리스트 글로벌 변수 역할
-final allRecipesProvider = StateNotifierProvider<RecipeListNotifier, List<Recipe>>(
+//2. 처음 전체 레시피 데이터를 로드했을때 담을 리스트 글로벌 변수 역할
+final allRecipesProvider =
+    StateNotifierProvider<RecipeListNotifier, List<Recipe>>(
   (ref) => RecipeListNotifier(),
 );
 
@@ -45,3 +47,13 @@ class RecipeListNotifier extends StateNotifier<List<Recipe>> {
     return filtered;
   }
 }
+
+//3. ShakeDetector Provider
+final shakeDetectorProvider = StateProvider(
+  (ref) => ShakeDetector.waitForStart(
+    shakeThresholdGravity: 2,
+    onPhoneShake: () {
+      ref.read(diceNumberProvider.notifier).roll();
+    },
+  ),
+);
