@@ -10,7 +10,7 @@ class ListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Recipe> items = ref.watch(allRecipesProvider);
+    List<Recipe> items = ref.watch(filteredRecipesProvider);
     final TextEditingController myController = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
@@ -33,9 +33,9 @@ class ListScreen extends ConsumerWidget {
                 hintStyle: TextStyle(color: Colors.grey),
               ),
               onEditingComplete: () {
-                items = ref
-                    .read(allRecipesProvider.notifier)
-                    .filteredList(myController.text);
+                ref
+                    .read(filteredRecipesProvider.notifier)
+                    .filterList(myController.text);
               },
             ),
           ),

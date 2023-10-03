@@ -21,19 +21,27 @@ class DiceNumberNotifier extends StateNotifier<int> {
 }
 
 //2. 처음 전체 레시피 데이터를 로드했을때 담을 리스트 글로벌 변수 역할
-final allRecipesProvider =
-    StateNotifierProvider<RecipeListNotifier, List<Recipe>>(
-  (ref) => RecipeListNotifier(),
+final allRecipesProvider = StateProvider<List<Recipe>>((ref) => []);
+
+//3. 검색 필터를 적용한 리스트 Provider
+final filteredRecipesProvider =
+    StateNotifierProvider<FilteredRecipeListNotifier, List<Recipe>>(
+  (ref) => FilteredRecipeListNotifier(
+    repository: ref.watch(allRecipesProvider),
+  ),
 );
 
-class RecipeListNotifier extends StateNotifier<List<Recipe>> {
-  RecipeListNotifier() : super([]);
+class FilteredRecipeListNotifier extends StateNotifier<List<Recipe>> {
+  FilteredRecipeListNotifier({required this.repository}) : super(repository);
 
-  void loadRecipeList(List<Recipe> list) {
-    state = list;
+  List<Recipe> repository = [];
+
+  //필터할 대상(부모 리스트)
+  void setDefaultList(List<Recipe> list) {
+    state = repository;
   }
 
-  List<Recipe> filteredList(String keyword) {
+  List<Recipe> filterList(String keyword) {
     //검색어를 포함하고있는 레시피 리스트
     List<Recipe> filtered;
     filtered = state
@@ -43,12 +51,12 @@ class RecipeListNotifier extends StateNotifier<List<Recipe>> {
             (element.hashtag!.contains(keyword)) || //해쉬태그
             (element.rcppartsdtls!.contains(keyword))) //재료정보
         .toList();
-
+    state = filtered;
     return filtered;
   }
 }
 
-//3. ShakeDetector Provider
+//4. ShakeDetector Provider
 final shakeDetectorProvider = StateProvider(
   (ref) => ShakeDetector.waitForStart(
     shakeThresholdGravity: 2,
