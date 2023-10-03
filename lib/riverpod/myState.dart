@@ -38,8 +38,8 @@ class FilteredRecipeListNotifier extends StateNotifier<List<Recipe>> {
   List<Recipe> repository = [];
 
   //필터할 대상(부모 리스트)
-  void setDefaultList(List<Recipe> list) {
-    state = list;
+  void setDefaultList() {
+    state = repository;
   }
 
   List<Recipe> filterList(String keyword) {

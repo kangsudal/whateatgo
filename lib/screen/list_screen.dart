@@ -20,23 +20,33 @@ class ListScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextField(
               controller: myController,
-              decoration: const InputDecoration(
-                focusedBorder: OutlineInputBorder(
+              decoration: InputDecoration(
+                focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black, width: 1.0),
                 ),
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 labelText: '검색',
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   color: Colors.black,
                 ),
                 hintText: '두부',
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
+                suffixIcon: IconButton(
+                  icon: const Icon(
+                    Icons.undo,
+                    color: Colors.deepPurple,
+                  ),
+                  onPressed: () {
+                    ref.read(filteredRecipesProvider.notifier).setDefaultList();
+                  },
+                ),
               ),
               onEditingComplete: () {
                 ref
                     .read(filteredRecipesProvider.notifier)
                     .filterList(myController.text);
               },
+              autofocus: true,
             ),
           ),
           Expanded(
