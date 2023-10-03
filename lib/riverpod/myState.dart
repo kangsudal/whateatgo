@@ -24,8 +24,9 @@ class DiceNumberNotifier extends StateNotifier<int> {
 final allRecipesProvider = StateProvider<List<Recipe>>((ref) => []);
 
 //3. 검색 필터를 적용한 리스트 Provider
+//사용자가 화면상에서 떠나고 다시 진입했을 때 상태를 초기화 할 경우 autoDispose를 사용한다.
 final filteredRecipesProvider =
-    StateNotifierProvider<FilteredRecipeListNotifier, List<Recipe>>(
+    StateNotifierProvider.autoDispose<FilteredRecipeListNotifier, List<Recipe>>(
   (ref) => FilteredRecipeListNotifier(
     repository: ref.watch(allRecipesProvider),
   ),
@@ -38,7 +39,7 @@ class FilteredRecipeListNotifier extends StateNotifier<List<Recipe>> {
 
   //필터할 대상(부모 리스트)
   void setDefaultList(List<Recipe> list) {
-    state = repository;
+    state = list;
   }
 
   List<Recipe> filterList(String keyword) {
