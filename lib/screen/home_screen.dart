@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whateatgo/riverpod/myState.dart';
-import 'package:whateatgo/screen/list_screen.dart';
-import 'package:whateatgo/screen/manual_screen.dart';
+import 'package:whateatgo2/riverpod/myState.dart';
+import 'package:whateatgo2/screen/list_screen.dart';
+import 'package:whateatgo2/screen/manual_screen.dart';
 
 import '../model/recipe.dart';
 

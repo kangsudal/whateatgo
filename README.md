@@ -1,4 +1,4 @@
-# whateatgo
+# whateatgo2
 
 한끼잇고 iOS버전
 
