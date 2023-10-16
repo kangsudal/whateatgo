@@ -1,3 +1,6 @@
+import 'package:hive/hive.dart';
+part 'recipe.g.dart';
+
 /// INFO_WGT : ""
 /// MANUAL01 : "1. 깨끗이 씻어 손질한 애호박, 당근과 기둥을 뗀 표고버섯을 잘게 다지듯이 썬다.a"
 /// MANUAL02 : "2. 누룽지는 1cm 정도로 잘게 부숴준다.b"
@@ -52,169 +55,170 @@
 /// MANUAL_IMG20 : ""
 /// INFO_NA : "271"
 /// INFO_FAT : "7"
-
+@HiveType(typeId: 2)
 class Recipe {
+  @HiveField(0)
   String? _infowgt;
+  @HiveField(1)
   String? _manual01;
+  @HiveField(2)
   String? _manual02;
+  @HiveField(3)
   String? _infoeng;
+  @HiveField(4)
   String? _manual03;
+  @HiveField(5)
   String? _manual04;
+  @HiveField(6)
   String? _manual05;
+  @HiveField(7)
   String? _attfilenomk;
+  @HiveField(8)
   String? _manual06;
+  @HiveField(9)
   String? _manual07;
+  @HiveField(10)
   String? _manual08;
+  @HiveField(11)
   String? _manual09;
+  @HiveField(12)
   String? _rcppartsdtls;
+  @HiveField(13)
   String? _manualimg01;
+  @HiveField(14)
   String? _infopro;
+  @HiveField(15)
   String? _rcpnm;
+  @HiveField(16)
   String? _manual11;
+  @HiveField(17)
   String? _manualimg03;
+  @HiveField(18)
   String? _manual12;
+  @HiveField(19)
   String? _infocar;
+  @HiveField(20)
   String? _manualimg02;
+  @HiveField(21)
   String? _manualimg05;
+  @HiveField(22)
   String? _manual10;
+  @HiveField(23)
   String? _manualimg04;
+  @HiveField(24)
   String? _rcpway2;
+  @HiveField(25)
   String? _manual15;
+  @HiveField(26)
   String? _manual16;
+  @HiveField(27)
   String? _manual13;
+  @HiveField(28)
   String? _manual14;
+  @HiveField(29)
   String? _manual19;
+  @HiveField(30)
   String? _manual17;
+  @HiveField(31)
   String? _manual18;
+  @HiveField(32)
   String? _rcppat2;
+  @HiveField(33)
   String? _hashtag;
+  @HiveField(34)
   String? _manualimg06;
+  @HiveField(35)
   String? _manualimg07;
+  @HiveField(36)
   String? _manualimg08;
+  @HiveField(37)
   String? _manualimg09;
+  @HiveField(38)
   String? _rcpseq;
+  @HiveField(39)
   String? _manualimg16;
+  @HiveField(40)
   String? _manualimg15;
+  @HiveField(41)
   String? _manualimg14;
+  @HiveField(42)
   String? _manualimg13;
+  @HiveField(43)
   String? _manualimg12;
+  @HiveField(44)
   String? _manualimg11;
+  @HiveField(45)
   String? _manualimg10;
+  @HiveField(46)
   String? _manual20;
+  @HiveField(47)
   String? _manualimg19;
+  @HiveField(48)
   String? _manualimg17;
+  @HiveField(49)
   String? _manualimg18;
+  @HiveField(50)
   String? _attfilenomain;
+  @HiveField(51)
   String? _manualimg20;
+  @HiveField(52)
   String? _infona;
+  @HiveField(53)
   String? _infofat;
 
   String? get infowgt => _infowgt;
-
   String? get manual01 => _manual01;
-
   String? get manual02 => _manual02;
-
   String? get infoeng => _infoeng;
-
   String? get manual03 => _manual03;
-
   String? get manual04 => _manual04;
-
   String? get manual05 => _manual05;
-
   String? get attfilenomk => _attfilenomk;
-
   String? get manual06 => _manual06;
-
   String? get manual07 => _manual07;
-
   String? get manual08 => _manual08;
-
   String? get manual09 => _manual09;
-
   String? get rcppartsdtls => _rcppartsdtls;
-
   String? get manualimg01 => _manualimg01;
-
   String? get infopro => _infopro;
-
   String? get rcpnm => _rcpnm;
-
   String? get manual11 => _manual11;
-
   String? get manualimg03 => _manualimg03;
-
   String? get manual12 => _manual12;
-
   String? get infocar => _infocar;
-
   String? get manualimg02 => _manualimg02;
-
   String? get manualimg05 => _manualimg05;
-
   String? get manual10 => _manual10;
-
   String? get manualimg04 => _manualimg04;
-
   String? get rcpway2 => _rcpway2;
-
   String? get manual15 => _manual15;
-
   String? get manual16 => _manual16;
-
   String? get manual13 => _manual13;
-
   String? get manual14 => _manual14;
-
   String? get manual19 => _manual19;
-
   String? get manual17 => _manual17;
-
   String? get manual18 => _manual18;
-
   String? get rcppat2 => _rcppat2;
-
   String? get hashtag => _hashtag;
-
   String? get manualimg06 => _manualimg06;
-
   String? get manualimg07 => _manualimg07;
-
   String? get manualimg08 => _manualimg08;
-
   String? get manualimg09 => _manualimg09;
-
   String? get rcpseq => _rcpseq;
-
   String? get manualimg16 => _manualimg16;
-
   String? get manualimg15 => _manualimg15;
-
   String? get manualimg14 => _manualimg14;
-
   String? get manualimg13 => _manualimg13;
-
   String? get manualimg12 => _manualimg12;
-
   String? get manualimg11 => _manualimg11;
-
   String? get manualimg10 => _manualimg10;
-
   String? get manual20 => _manual20;
-
   String? get manualimg19 => _manualimg19;
-
   String? get manualimg17 => _manualimg17;
-
   String? get manualimg18 => _manualimg18;
-
   String? get attfilenomain => _attfilenomain;
-
   String? get manualimg20 => _manualimg20;
-
   String? get infona => _infona;
-
   String? get infofat => _infofat;
 
   Recipe(
@@ -443,4 +447,14 @@ class Recipe {
     map["INFO_FAT"] = _infofat;
     return map;
   }
+
+  @override
+  bool operator ==(Object other) {
+    return (other is Recipe) &&
+        (other.rcpnm == rcpnm) &&
+        (other.rcpseq == rcpseq);
+  }
+
+  @override
+  int get hashCode => (rcpnm!.hashCode) ^ (rcpseq!.hashCode);
 }
