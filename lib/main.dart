@@ -3,12 +3,20 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:whateatgo2/riverpod/myState.dart';
 import 'package:whateatgo2/screen/home_screen.dart';
 
 import 'model/recipe.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(RecipeAdapter());
+  Box<Recipe> recipeBox = await Hive.openBox<Recipe>('recipeBox');
+  if (recipeBox.isEmpty) {
+    fetchData(recipeBox); // JSON -> recipeBox 저장
+  }
+
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -57,7 +65,6 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    fetchData(ref);
     return MaterialApp(
       home: HomeScreen(), //ListScreen(),
       theme: ThemeData(
@@ -80,21 +87,21 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
       ),
     );
   }
+}
 
-  void fetchData(WidgetRef ref) async {
-    //로컬 파일로부터 모든 레시피를 불러옴
-    try {
-      //파일을 읽어와 List<Recipe>로 변환시킨다.
-      String jsonString = await rootBundle.loadString('sourceFile');
-      Map<String, dynamic> dataMap = jsonDecode(jsonString);
-      List<dynamic> dataList = dataMap['COOKRCP01']['row'];
-      List<Recipe> recipes =
-          dataList.map((json) => Recipe.fromJson(json)).toList();
+void fetchData(Box<Recipe> recipeBox) async {
+  //로컬 파일로부터 모든 레시피를 불러와 DB에 넣는다.
+  try {
+    //파일을 읽어와 List<Recipe>로 변환시킨다.
+    String jsonString = await rootBundle.loadString('sourceFile');
+    Map<String, dynamic> dataMap = jsonDecode(jsonString);
+    List<dynamic> dataList = dataMap['COOKRCP01']['row'];
+    List<Recipe> recipes =
+        dataList.map((json) => Recipe.fromJson(json)).toList();
 
-      //전체 recipes 상태관리 변수에 넣기
-      ref.read(allRecipesProvider.notifier).state = recipes;
-    } catch (e) {
-      throw Exception(e);
-    }
+    //DB에 넣는다.
+    recipeBox.addAll(recipes);
+  } catch (e) {
+    throw Exception(e);
   }
 }
