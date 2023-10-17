@@ -30,7 +30,7 @@ class _ListScreenState extends ConsumerState<ListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Recipe> items = ref.watch(filteredRecipesProvider);
+    List<Recipe> items = ref.watch(listScreenRecipesProvider);
     final TextEditingController myController = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
@@ -57,14 +57,16 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                     color: Colors.deepPurple,
                   ),
                   onPressed: () {
-                    ref.read(filteredRecipesProvider.notifier).setDefaultList();
+                    ref
+                        .read(listScreenRecipesProvider.notifier)
+                        .setDefaultList();
                   },
                 ),
               ),
               onEditingComplete: () {
                 ref
-                    .read(filteredRecipesProvider.notifier)
-                    .filterList(myController.text);
+                    .read(listScreenRecipesProvider.notifier)
+                    .normalFilterList(myController.text);
               },
               autofocus: true,
             ),

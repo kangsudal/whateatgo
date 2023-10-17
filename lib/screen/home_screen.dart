@@ -12,9 +12,9 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int diceNumber = ref.watch(diceNumberProvider);
-    final List<Recipe> allRecipes = ref.watch(allRecipesProvider);
+    final List<Recipe> recipeList = ref.watch(homeScreenRecipesProvider);
     final Recipe? currentRecipe =
-        diceNumber == -1 ? null : allRecipes.elementAt(diceNumber);
+        diceNumber == -1 ? null : recipeList.elementAt(diceNumber);
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(255, 255, 255, 0.9),
