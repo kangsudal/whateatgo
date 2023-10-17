@@ -32,8 +32,8 @@ final shakeDetectorProvider = StateProvider(
 );
 
 //3. 홈 화면에 후보군 리스트(초기값은 모든 리스트)
-final homeScreenRecipesProvider = StateProvider((ref) =>
-    Hive.box('recipeBox').values.map((item) => Recipe.fromJson(item)).toList());
+final homeScreenRecipesProvider =
+    StateProvider((ref) => Hive.box<Recipe>('recipeBox').values.toList());
 
 //4. 리스트 화면에 후보군 리스트(초기값은 모든 리스트)
 //검색 필터를 적용한 리스트 Provider
@@ -45,25 +45,18 @@ final listScreenRecipesProvider =
 
 class FilteredRecipeListNotifier extends StateNotifier<List<Recipe>> {
   FilteredRecipeListNotifier()
-      : super(Hive.box('recipeBox')
-            .values
-            .map((item) => Recipe.fromJson(item))
-            .toList());
+      : super(Hive.box<Recipe>('recipeBox').values.toList());
 
   //필터할 대상(부모 리스트)
   void setDefaultList() {
-    state = Hive.box('recipeBox')
-        .values
-        .map((item) => Recipe.fromJson(item))
-        .toList();
+    state = Hive.box<Recipe>('recipeBox').values.toList();
   }
 
   List<Recipe> normalFilterList(String keyword) {
     //검색어를 포함하고있는 레시피 리스트
     List<Recipe> filtered;
-    filtered = Hive.box('recipeBox')
+    filtered = Hive.box<Recipe>('recipeBox')
         .values
-        .map((item) => Recipe.fromJson(item))
         .toList()
         .where((element) =>
             (element.rcpnm!.contains(keyword)) || //메뉴명
