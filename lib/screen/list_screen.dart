@@ -14,6 +14,7 @@ class ListScreen extends ConsumerStatefulWidget {
 }
 
 class _ListScreenState extends ConsumerState<ListScreen> {
+  final TextEditingController myController = TextEditingController();
   @override
   void initState() {
     //홈화면으로부터 벗어나 manual화면으로 들어왔을때 잠시 shakeDetector를 끈다.
@@ -33,7 +34,6 @@ class _ListScreenState extends ConsumerState<ListScreen> {
   Widget build(BuildContext context) {
     List<Recipe> items = ref.watch(listScreenRecipesProvider);
     Map<String, bool> categories = ref.watch(recipeCategoryProvider);
-    final TextEditingController myController = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
       body: Column(
