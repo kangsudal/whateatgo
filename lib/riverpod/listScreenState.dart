@@ -3,6 +3,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../model/recipe.dart';
 
+/*
+총 1114
+밥  116
+후식 132
+반찬 560
+일품 167
+국&찌개 102
+기타 37
+*/
+
 //1. 리스트 화면에 체크박스 상태 관리
 final recipeCategoryProvider = AutoDisposeStateProvider<Map<String, bool>>(
   (ref) => {
