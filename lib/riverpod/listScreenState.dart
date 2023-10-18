@@ -31,26 +31,10 @@ class FilteredRecipeListNotifier extends StateNotifier<List<Recipe>> {
     state = Hive.box<Recipe>('recipeBox').values.toList();
   }
 
-  List<Recipe> normalFilterList(String keyword) {
-    //검색어를 포함하고있는 레시피 리스트
-    List<Recipe> filtered;
-    filtered = Hive.box<Recipe>('recipeBox')
-        .values
-        .toList()
-        .where((element) =>
-            (element.rcpnm!.contains(keyword)) || //메뉴명
-            (element.rcppat2!.contains(keyword)) || //요리종류
-            (element.hashtag!.contains(keyword)) || //해쉬태그
-            (element.rcppartsdtls!.contains(keyword))) //재료정보
-        .toList();
-    state = filtered;
-    return filtered;
-  }
-
-  List<Recipe> filterListByCategory(Map<String, bool> categories) {
-    ///'밥', '후식', '반찬', '일품',  '국&찌개' 분류 필터 버튼 상태관리
-    /// 체크된(true) key 값만 가져온다. (국&찌개, 후식 등)
-    /// https://stackoverflow.com/questions/73309888/how-to-return-a-list-of-map-keys-if-they-are-true
+  List<Recipe> filterList(String keyword, Map<String, bool> categories) {
+    //'밥', '후식', '반찬', '일품',  '국&찌개' 분류 체크박스에서
+    // 체크된(true) key 값만 가져온다. (국&찌개, 후식 등)
+    // https://stackoverflow.com/questions/73309888/how-to-return-a-list-of-map-keys-if-they-are-true
     List<String> trueCategories = [];
     categories.forEach((category, isChecked) {
       if (isChecked == true) {
@@ -58,31 +42,22 @@ class FilteredRecipeListNotifier extends StateNotifier<List<Recipe>> {
       }
     });
 
-    //체크된 카테고리를 포함하고있는 레시피 리스트
+    //검색어를 포함하고 & 체크된 음식 분류를 포함하고있는 레시피를 담을 리스트
     List<Recipe> filtered = [];
 
     for (String category in trueCategories) {
       filtered += Hive.box<Recipe>('recipeBox')
           .values
           .toList()
+          .where((element) =>
+              (element.rcpnm!.contains(keyword)) || //메뉴명
+              (element.rcppat2!.contains(keyword)) || //요리종류
+              (element.hashtag!.contains(keyword)) || //해쉬태그
+              (element.rcppartsdtls!.contains(keyword))) //재료정보
           .where((recipe) => recipe.rcppat2 == category)
           .toList();
     }
 
-    state = filtered;
-    return filtered;
-  }
-
-  List<Recipe> filterInFilteredResult(String keyword) {
-    //검색어를 포함하고있는 레시피 리스트
-    List<Recipe> filtered;
-    filtered = state
-        .where((element) =>
-            (element.rcpnm!.contains(keyword)) || //메뉴명
-            (element.rcppat2!.contains(keyword)) || //요리종류
-            (element.hashtag!.contains(keyword)) || //해쉬태그
-            (element.rcppartsdtls!.contains(keyword))) //재료정보
-        .toList();
     state = filtered;
     return filtered;
   }

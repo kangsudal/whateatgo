@@ -73,10 +73,10 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                   },
                 ),
               ),
-              onEditingComplete: () {
+              onSubmitted: (value) {
                 ref
                     .read(listScreenRecipesProvider.notifier)
-                    .normalFilterList(myController.text);
+                    .filterList(myController.text, categories);
               },
               autofocus: true,
             ),
@@ -94,14 +94,12 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                       Checkbox(
                         value: categories[key],
                         onChanged: (bool? value) {
-                          /// 현재 리스트 state에서 체크된 카테고리 필터를 적용한다.
-                          /// https://stackoverflow.com/questions/45153204/how-can-i-handle-a-list-of-checkboxes-dynamically-created-in-flutter
-                          setState(() {
-                            categories[key] = value ?? false;
-                            ref
-                                .read(listScreenRecipesProvider.notifier)
-                                .filterListByCategory(categories);
-                          });
+                          // https://stackoverflow.com/questions/45153204/how-can-i-handle-a-list-of-checkboxes-dynamically-created-in-flutter
+                          categories[key] = value ?? false;
+                          // 체크박스 토글시 리스트 필터를 적용
+                          ref
+                              .read(listScreenRecipesProvider.notifier)
+                              .filterList(myController.text, categories);
                         },
                       ),
                       Text(key),
