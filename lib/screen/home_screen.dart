@@ -21,6 +21,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final List<Recipe> recipeList = ref.watch(homeScreenRecipesProvider);
     final Recipe? currentRecipe =
         diceNumber == -1 ? null : recipeList.elementAt(diceNumber);
+    if (currentRecipe != null) {
+      debugPrint('분류: ${currentRecipe.rcppat2}, 요리명: ${currentRecipe.rcpnm}');
+    }
     Map<String, bool> categories = ref.watch(homeScreenRecipeCategoryProvider);
     return SafeArea(
       child: Scaffold(
@@ -80,6 +83,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       onChanged: (value) {
                         setState(() {
                           categories[key] = value;
+                          // 체크박스 토글시 리스트 필터를 적용
+                          ref
+                              .read(homeScreenRecipesProvider.notifier)
+                              .filterList(categories);
                         });
                       },
                     ),
