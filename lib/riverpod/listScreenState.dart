@@ -3,10 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../model/recipe.dart';
 
-//1. 홈 화면에 후보군 리스트(초기값은 모든 리스트)
-final homeScreenRecipesProvider =
-    StateProvider((ref) => Hive.box<Recipe>('recipeBox').values.toList());
-
+//1. 리스트 화면에 체크박스 상태 관리
 final recipeCategoryProvider = AutoDisposeStateProvider<Map<String, bool>>(
   (ref) => {
     '밥': true,

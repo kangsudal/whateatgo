@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whateatgo2/riverpod/myState.dart';
+import 'package:whateatgo2/riverpod/homeScreenState.dart';
 import 'package:whateatgo2/riverpod/shakeState.dart';
 import 'package:whateatgo2/screen/list_screen.dart';
 import 'package:whateatgo2/screen/manual_screen.dart';
 
-import '../model/recipe.dart';
+import 'package:whateatgo2/model/recipe.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});

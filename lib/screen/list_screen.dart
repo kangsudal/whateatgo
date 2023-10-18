@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whateatgo2/riverpod/myState.dart';
+import 'package:whateatgo2/riverpod/listScreenState.dart';
 import 'package:whateatgo2/screen/manual_screen.dart';
 import 'package:whateatgo2/riverpod/shakeState.dart';
 
