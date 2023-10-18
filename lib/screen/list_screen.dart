@@ -32,6 +32,7 @@ class _ListScreenState extends ConsumerState<ListScreen> {
   @override
   Widget build(BuildContext context) {
     List<Recipe> items = ref.watch(listScreenRecipesProvider);
+    Map<String, bool> categories = ref.watch(recipeCategoryProvider);
     final TextEditingController myController = TextEditingController();
     return Scaffold(
       appBar: AppBar(),
@@ -58,9 +59,17 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                     color: Colors.deepPurple,
                   ),
                   onPressed: () {
+                    //검색조건 모두 초기화
                     ref
                         .read(listScreenRecipesProvider.notifier)
                         .setDefaultList();
+                    ref.read(recipeCategoryProvider.notifier).state = {
+                      '밥': true,
+                      '후식': true,
+                      '반찬': true,
+                      '일품': true,
+                      '국&찌개': true,
+                    };
                   },
                 ),
               ),
@@ -71,6 +80,36 @@ class _ListScreenState extends ConsumerState<ListScreen> {
               },
               autofocus: true,
             ),
+          ),
+          //'밥', '후식', '반찬', '일품',  '국&찌개' 분류 필터 체크박스
+          Row(
+            children: categories.keys.map((String key) {
+              return Expanded(
+                child: Center(
+                  child: Wrap(
+                    direction: Axis.vertical,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: -5,
+                    children: [
+                      Checkbox(
+                        value: categories[key],
+                        onChanged: (bool? value) {
+                          /// 현재 리스트 state에서 체크된 카테고리 필터를 적용한다.
+                          /// https://stackoverflow.com/questions/45153204/how-can-i-handle-a-list-of-checkboxes-dynamically-created-in-flutter
+                          setState(() {
+                            categories[key] = value ?? false;
+                            ref
+                                .read(listScreenRecipesProvider.notifier)
+                                .filterListByCategory(categories);
+                          });
+                        },
+                      ),
+                      Text(key),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
           ),
           ListTile(
             subtitle: Text(
