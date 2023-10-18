@@ -7,15 +7,21 @@ import 'package:whateatgo2/screen/manual_screen.dart';
 
 import 'package:whateatgo2/model/recipe.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
     final int diceNumber = ref.watch(diceNumberProvider);
     final List<Recipe> recipeList = ref.watch(homeScreenRecipesProvider);
     final Recipe? currentRecipe =
         diceNumber == -1 ? null : recipeList.elementAt(diceNumber);
+    Map<String, bool> categories = ref.watch(homeScreenRecipeCategoryProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(255, 255, 255, 0.9),
@@ -53,6 +59,32 @@ class HomeScreen extends ConsumerWidget {
                   // ...
                 },
               ),
+              ListTile(
+                title: const Text(
+                  '기록',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              // https://flutterguide.com/how-to-use-spread-operator-in-flutter/
+              ...categories.keys
+                  .map(
+                    (key) => SwitchListTile.adaptive(
+                      title: Text(key),
+                      value: categories[key]!,
+                      onChanged: (value) {
+                        setState(() {
+                          categories[key] = value;
+                        });
+                      },
+                    ),
+                  )
+                  .toList(),
               const BuymeacoffeeWidget(),
             ],
           ),
