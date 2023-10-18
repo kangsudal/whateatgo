@@ -78,7 +78,6 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                     .read(listScreenRecipesProvider.notifier)
                     .filterList(myController.text, categories);
               },
-              autofocus: true,
             ),
           ),
           //'밥', '후식', '반찬', '일품',  '국&찌개' 분류 필터 체크박스
