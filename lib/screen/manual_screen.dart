@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whateatgo2/riverpod/shakeState.dart';
 
 import '../model/recipe.dart';
-import '../riverpod/myState.dart';
 
 class ManualScreen extends ConsumerStatefulWidget {
   final Recipe recipe; //생성자 매개변수로 Recipe를 받는다

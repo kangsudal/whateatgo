@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whateatgo2/riverpod/myState.dart';
 import 'package:whateatgo2/screen/manual_screen.dart';
+import 'package:whateatgo2/riverpod/shakeState.dart';
 
 import '../model/recipe.dart';
 
@@ -69,6 +70,11 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                     .normalFilterList(myController.text);
               },
               autofocus: true,
+            ),
+          ),
+          ListTile(
+            subtitle: Text(
+              '검색결과 ${ref.watch(listScreenRecipesProvider).length}개',
             ),
           ),
           Expanded(

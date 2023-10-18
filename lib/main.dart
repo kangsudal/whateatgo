@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:whateatgo2/riverpod/myState.dart';
+import 'package:whateatgo2/riverpod/shakeState.dart';
 import 'package:whateatgo2/screen/home_screen.dart';
 
 import 'model/recipe.dart';
