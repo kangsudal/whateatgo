@@ -11,6 +11,7 @@ final recipeCategoryProvider = AutoDisposeStateProvider<Map<String, bool>>(
     '반찬': true,
     '일품': true,
     '국&찌개': true,
+    '기타': true,
   },
 );
 

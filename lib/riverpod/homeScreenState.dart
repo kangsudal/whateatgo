@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:whateatgo2/model/recipe.dart';
@@ -10,6 +11,7 @@ final homeScreenRecipeCategoryProvider = StateProvider<Map<String, bool>>(
     '반찬': true,
     '일품': true,
     '국&찌개': true,
+    '기타': true,
   },
 );
 

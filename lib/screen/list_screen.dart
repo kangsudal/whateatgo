@@ -69,6 +69,7 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                       '반찬': true,
                       '일품': true,
                       '국&찌개': true,
+                      '기타': true,
                     };
                   },
                 ),
