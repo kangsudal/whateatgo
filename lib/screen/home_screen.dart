@@ -15,6 +15,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final TextEditingController myController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final int diceNumber = ref.watch(diceNumberProvider);
@@ -74,6 +76,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   // ...
                 },
               ),
+              const ListTile(
+                title: Text('필터)'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 50),
+                child: TextField(
+                  controller: myController,
+                  style: const TextStyle(color: Colors.white70),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    filled: true,
+                    hintStyle: const TextStyle(color: Colors.white70),
+                    hintText: "재료 입력: ex) 당근",
+                    fillColor: Colors.grey,
+                  ),
+                  onChanged: (ingredients) {
+                    ref
+                        .read(homeScreenRecipesProvider.notifier)
+                        .filterList(ingredients, categories);
+                  },
+                ),
+              ),
               // https://flutterguide.com/how-to-use-spread-operator-in-flutter/
               ...categories.keys
                   .map(
@@ -86,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           // 체크박스 토글시 리스트 필터를 적용
                           ref
                               .read(homeScreenRecipesProvider.notifier)
-                              .filterList(categories);
+                              .filterList(myController.text, categories);
                         });
                       },
                     ),
