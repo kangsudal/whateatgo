@@ -21,8 +21,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final int diceNumber = ref.watch(diceNumberProvider);
     final List<Recipe> recipeList = ref.watch(homeScreenRecipesProvider);
-    final Recipe? currentRecipe =
-        diceNumber == -1 ? null : recipeList.elementAt(diceNumber);
+    final Recipe? currentRecipe = diceNumber == -1 || diceNumber == -2
+        ? null
+        : recipeList.elementAt(diceNumber);
     if (currentRecipe != null) {
       debugPrint('분류: ${currentRecipe.rcppat2}, 요리명: ${currentRecipe.rcpnm}');
     }
@@ -92,7 +93,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           filled: true,
-                          hintStyle: const TextStyle(color: Colors.white70,fontSize: 13,),
+                          hintStyle: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 13,
+                          ),
                           hintText: "예:두부 버섯(띄어쓰기로 구분합니다)",
                           fillColor: Colors.grey,
                         ),
@@ -100,6 +104,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ref
                               .read(homeScreenRecipesProvider.notifier)
                               .filterList(ingredients, categories);
+
+                          debugPrint('다이스넘버:$diceNumber');
                         },
                       ),
                     ),
@@ -130,14 +136,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           ),
         ),
-        body: currentRecipe == null
-            ? Center(
-                child: Text(
-                  '흔들어주세요!',
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
-              )
-            : ContentWidget(currentRecipe: currentRecipe),
+        body: ContentWidget(
+          currentRecipe: currentRecipe,
+          diceNumber: diceNumber,
+        ),
         floatingActionButton: FloatingActionButton(
           // backgroundColor: Colors.black,
           child: const Icon(Icons.refresh),
@@ -194,23 +196,41 @@ class ContentWidget extends StatelessWidget {
   const ContentWidget({
     super.key,
     required this.currentRecipe,
+    required this.diceNumber,
   });
 
   final Recipe? currentRecipe;
+  final int diceNumber;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(18.0),
-      child: Column(
-        children: [
-          Expanded(
-            child: TopWidget(currentRecipe: currentRecipe),
-          ),
-          BottomButtonsWidget(currentRecipe: currentRecipe),
-        ],
-      ),
-    );
+    if (diceNumber == -1) {
+      return Center(
+        child: Text(
+          '흔들어주세요!',
+          style: Theme.of(context).textTheme.displayLarge,
+        ),
+      );
+    } else if (diceNumber == -2) {
+      return Center(
+        child: Text(
+          '조건에 맞는 레시피가 없습니다.',
+          style: Theme.of(context).textTheme.displayLarge,
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: TopWidget(currentRecipe: currentRecipe),
+            ),
+            BottomButtonsWidget(currentRecipe: currentRecipe),
+          ],
+        ),
+      );
+    }
   }
 }
 

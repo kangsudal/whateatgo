@@ -66,7 +66,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(), //ListScreen(),
+      home: const HomeScreen(), //ListScreen(),
       theme: ThemeData(
         fontFamily: 'SongMyung',
         primaryColor: Colors.black,

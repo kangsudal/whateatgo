@@ -28,7 +28,7 @@ class DiceNumberNotifier extends StateNotifier<int> {
     } catch (e) {
       //레시피 필터 결과 개수가 0개일때 에러가 나므로 -1로 넣어준다.
       debugPrint('shakeState roll()에서 에러남: $e');
-      state = -1;
+      state = -2;
     }
     debugPrint('$state번째 요리');
   }
