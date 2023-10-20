@@ -51,7 +51,7 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                 labelStyle: const TextStyle(
                   color: Colors.black,
                 ),
-                hintText: '두부',
+                hintText: '예:두부 버섯(띄어쓰기로 구분합니다)',
                 hintStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: IconButton(
                   icon: const Icon(
@@ -71,6 +71,7 @@ class _ListScreenState extends ConsumerState<ListScreen> {
                       '국&찌개': true,
                       '기타': true,
                     };
+                    myController.text = '';
                   },
                 ),
               ),
