@@ -23,7 +23,13 @@ class DiceNumberNotifier extends StateNotifier<int> {
   void roll() {
     debugPrint('0~$length개 요리');
     // 시작은 (-1 , 0~1114)이고 홈화면에서 필터하고난 뒤 리스트 수 안에서 인덱스가 나오도록 함
-    state = Random().nextInt(length);
+    try {
+      state = Random().nextInt(length);
+    } catch (e) {
+      //레시피 필터 결과 개수가 0개일때 에러가 나므로 -1로 넣어준다.
+      debugPrint('shakeState roll()에서 에러남: $e');
+      state = -1;
+    }
     debugPrint('$state번째 요리');
   }
 }

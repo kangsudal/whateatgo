@@ -47,7 +47,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ListScreen(),
+                      builder: (context) => const ListScreen(),
                     ),
                   );
                 },
@@ -80,24 +80,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 title: Text('필터)'),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 50),
-                child: TextField(
-                  controller: myController,
-                  style: const TextStyle(color: Colors.white70),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: myController,
+                        style: const TextStyle(color: Colors.white70),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          filled: true,
+                          hintStyle: const TextStyle(color: Colors.white70,fontSize: 13,),
+                          hintText: "예:두부 버섯(띄어쓰기로 구분합니다)",
+                          fillColor: Colors.grey,
+                        ),
+                        onChanged: (ingredients) {
+                          ref
+                              .read(homeScreenRecipesProvider.notifier)
+                              .filterList(ingredients, categories);
+                        },
+                      ),
                     ),
-                    filled: true,
-                    hintStyle: const TextStyle(color: Colors.white70),
-                    hintText: "재료 입력: ex) 당근",
-                    fillColor: Colors.grey,
-                  ),
-                  onChanged: (ingredients) {
-                    ref
-                        .read(homeScreenRecipesProvider.notifier)
-                        .filterList(ingredients, categories);
-                  },
+                    const SizedBox(width: 5),
+                    Text('${recipeList.length.toString()}개'),
+                  ],
                 ),
               ),
               // https://flutterguide.com/how-to-use-spread-operator-in-flutter/
