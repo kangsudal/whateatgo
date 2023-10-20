@@ -30,6 +30,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Map<String, bool> categories = ref.watch(homeScreenRecipeCategoryProvider);
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color.fromRGBO(255, 255, 255, 0.9),
         appBar: AppBar(),
         endDrawer: Drawer(
