@@ -102,6 +102,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           fillColor: Colors.grey,
                         ),
                         onChanged: (ingredients) {
+                          bool a = ref.exists(diceNumberProvider);
+
                           ref
                               .read(homeScreenRecipesProvider.notifier)
                               .filterList(ingredients, categories);
